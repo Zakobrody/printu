@@ -1,0 +1,171 @@
+openapi: 3.0.3
+info:
+  title: Swagger Upload
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.1
+servers:
+  - url: https://example.com/v1
+tags:
+  - name: upload
+    description: Operations about upload images
+paths:
+  /upload:
+    post:
+      tags:
+        - upload
+      summary: Upload new photo
+      description: Upload new photo
+      operationId: upload
+      requestBody:
+        description: Update an existent pet in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Image'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+        default:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    Image:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 2058959
+        timestamp:
+          type: integer
+          example: 1516354800
+        source:
+          type: string
+          example: "instagram"
+          enum:
+            - instagram
+            - facebook
+            - file
+        folder:
+          type: string
+          example: null
+        height:
+          type: integer
+          example: 1080
+        width:
+          type: integer
+          example: 1080
+        mime:
+          type: string
+          example: "image/jpeg"
+          enum:
+            - "image/jpeg"
+            - "image/png"
+        display:
+          type: object
+          properties:
+            thumbnail:
+              $ref: '#/components/schemas/Thumbnail'
+            preview:
+              $ref: '#/components/schemas/Preview'
+            square:
+              $ref: '#/components/schemas/Square'
+            original:
+              $ref: '#/components/schemas/Original'
+        metadata:
+          type: object
+          properties:
+            gps:
+              type: string
+              example: "52/1, 15/1, 272/100 N 21/1, 1/1, 5851/100 E"
+            datetime:
+              type: integer
+              example: 1516354800
+            name:
+              type: string
+              example: "IMG_9171.JPG"
+    Thumbnail:
+      type: object
+      properties:
+        width:
+          type: integer
+          example: 200
+        height:
+          type: integer
+          example: 200
+        src:
+          type: string
+          example: "https://printu.test/media/catalog/cache/vH72u0x7Y4uf0Tdd1j%252F34EFgAluLOcapxlHI0rcqWYDEZi8ph6XztIGW4VGE1cuYIyIE/image.jpg"
+    Preview:
+      type: object
+      properties:
+        width:
+          type: integer
+          example: 800
+        height:
+          type: integer
+          example: 800
+        src:
+          type: string
+          example: "https://printu.test/media/catalog/cache/vH72u0x7Y4uf0Tdd1j%252F34EFgAluLOcapxlHI0rcqWYDEZi8ph6XztIsI%252BRE60RFRtAsn/image.jpg"
+    Square:
+      type: object
+      properties:
+        width:
+          type: integer
+          example: 200
+        height:
+          type: integer
+          example: 200
+        src:
+          type: string
+          example: "https://printu.test/media/catalog/cache/vH72u0x7Y4uf0Tdd1j%252F34EFgAluLOcapxlHI0rcqWYDEZi8ph6XztIsI%252BRE60RFRtAsn/image.jpg"
+    Original:
+      type: object
+      properties:
+        width:
+          type: integer
+          example: 1080
+        height:
+          type: integer
+          example: 1080
+        src:
+          type: string
+          example: "https://dev-printu-net.s3.eu-central-1.amazonaws.com/photobook/12/7/0/2058959.jpg?X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAILKHTK5ZOAVQB23Q%2F20180209%2Feu-central-1%2Fs3%2Faws4_request&X-Amz-Date=20180209T092316Z&X-Amz-SignedHeaders=host&X-Amz-Expires=518400&X-Amz-Signature=cc95d836e2235992e1948add1bc8f5cdb35d39dc974f8cfa23efd9895db32d38"
+    Error:
+      type: object
+      properties:
+        errorCode:
+          type: integer
+          example: 400
+        userMessage:
+          type: string
+          example: "The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed."
+        devMessage:
+          type: string
+          example: "Check the client_id parameter."
+        more:
+          type: string
+          example:
+        applicationCode:
+          type: string
+          example: "X1234"
+  requestBodies:
+    Image:
+      description: Pet object that needs to be added to the store
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Image'
