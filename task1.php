@@ -6,10 +6,7 @@ function hashOrder(int $number): string
 {
     $array  = array_map('intval', str_split(sprintf('%1$07d', $number)));
 
-    $value = ((5 + $array[6]) % 10).((2 + $array[1]) % 10).$array[2].((9 + $array[0]) % 10).$array[3].((9 + $array[5]) % 10).((1 + $array[4]) % 10);
-
-    echo $number .'::' . $value .'<br >';
-    return $value;
+    return ((5 + $array[6]) % 10).((2 + $array[1]) % 10).$array[2].((9 + $array[0]) % 10).$array[3].((9 + $array[5]) % 10).((1 + $array[4]) % 10);
 }
 
 $unique = [];
@@ -17,7 +14,7 @@ $unique = [];
 echo "Starting test ....".PHP_EOL;
 $start = microtime(true);
 
-for ($i=1; $i<=999; $i++) {
+for ($i=1; $i<=9999999; $i++) {
     $result = hashOrder($i);
 
     if (!preg_match("/^[0-9]{7}$/", $result)) {
